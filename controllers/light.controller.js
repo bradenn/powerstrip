@@ -1,4 +1,4 @@
-const {updateDevice} = require('../services/light.service');
+const {updateDevice, updateRGB, statusRGB} = require('../services/light.service');
 const {httpResponse, httpError} = require('../utils/http-response');
 
 let state = {};
@@ -23,8 +23,28 @@ let put = (req, res, next) => {
 
 };
 
+let rgb_get = (req, res, next) => {
+    res.send(statusRGB());
+};
+
+let rgb_put = (req, res, next) => {
+
+    let deviceId = req.params.device;
+    let value = req.params.value;
+
+    updateRGB(deviceId, value).then(() => {
+
+        next(httpResponse(200, "RGB Toggled."));
+    }).catch(() => {
+        next(httpError(500, "RGB not Toggled."));
+    });
+
+};
+
 
 module.exports = {
     get,
-    put
+    put,
+    rgb_get,
+    rgb_put
 };

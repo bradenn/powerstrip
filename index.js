@@ -12,7 +12,7 @@ app.use((data, req, res, next) => {
     if (res.headersSent) {
         return next(data)
     }
-    res.status(data.status);
+    res.status(data.status || 500);
     res.json({success: data.success, status: data.status, message: data.message, data: data.object});
 });
 
