@@ -18,6 +18,7 @@ let updateDevice = (device, value) => new Promise((resolve, reject) => {
 let serialPort = require('serialport');
 const Readline = require('@serialport/parser-readline')
 let port = new serialPort(env.ARDUINO, {baudRate: 9600});
+console.log(env.ARDUINO);
 
 const parser = new Readline()
 port.pipe(parser)
