@@ -3,10 +3,15 @@ const {httpResponse, httpError} = require('../utils/http-response');
 
 let state = {};
 
-
 let get = (req, res, next) => {
     let deviceId = req.params.device;
     res.send(`${(state[deviceId] === '255')?1:0}`);
+};
+
+
+let getDim = (req, res, next) => {
+    let deviceId = req.params.device;
+    res.send(state[deviceId]);
 };
 
 let put = (req, res, next) => {
@@ -44,6 +49,7 @@ let rgb_put = (req, res, next) => {
 
 module.exports = {
     get,
+    getDim,
     put,
     rgb_get,
     rgb_put

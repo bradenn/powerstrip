@@ -4,10 +4,14 @@ const DMX = require('dmx');
 const dmx = new DMX();
 const universe = dmx.addUniverse('demo', 'enttec-open-usb-dmx', env.SERIAL);
 
+function map_range(value, low1, high1, low2, high2) {
+    return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+}
+
 let updateDevice = (device, value) => new Promise((resolve, reject) => {
     try {
         let payload = {};
-        payload[device] = value;
+        payload[device] = map_range(value, 0, 100, 0, 255);
         universe.update(payload);
         resolve();
     } catch {
@@ -15,7 +19,6 @@ let updateDevice = (device, value) => new Promise((resolve, reject) => {
     }
 });
 
-console.log(env.ARDUINO);
 let serialPort = require('serialport');
 const Readline = require('@serialport/parser-readline')
 let port = new serialPort(env.ARDUINO, {baudRate: 9600});
