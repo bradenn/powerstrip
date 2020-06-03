@@ -1,9 +1,10 @@
+const env = require('../env/env');
 const {updateDevice} = require('../services/light.service');
 const {updateRGB, statusRGB} = require('../services/rgb.service');
 const {httpResponse, httpError} = require('../utils/http-response');
 
 const redis = require("redis");
-const client = redis.createClient(6379, '10.0.0.6');
+const client = redis.createClient(6379, env.REDIS);
 
 function map_range(value, low1, high1, low2, high2) {
     return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
