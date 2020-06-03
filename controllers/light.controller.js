@@ -13,7 +13,7 @@ function syncDmx() {
             if(doc == null){
                 client.set(`dmx_${i}`, 0);
             }else{
-                updateDevice(i, doc).then(() => {
+                updateDevice(i, map_range(doc, 0, 100, 0, 255)).then(() => {
                     console.log(`Synced state for dmx_${i} to ${doc}`);
                 }).catch(() => {
                     console.log('Failed to update');
