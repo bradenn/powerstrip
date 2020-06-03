@@ -5,6 +5,23 @@ const {httpResponse, httpError} = require('../utils/http-response');
 
 const redis = require("redis");
 const client = redis.createClient(6379, env.REDIS);
+syncDmx();
+
+function syncDmx() {
+    for(let i = 1; i <= 16; i++){
+        client.get(`dmx_${i}`, (err, doc) => {
+            if(doc == null){
+                client.set(`dmx_${deviceId}`, 0);
+            }else{
+                updateDevice(i, doc).then(() => {
+                    console.log(`Synced state for dmx_${i} to ${doc}`);
+                }).catch(() => {
+                    console.log('Failed to update');
+                });
+            }
+        });
+    }
+}
 
 function map_range(value, low1, high1, low2, high2) {
     return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
@@ -13,7 +30,7 @@ function map_range(value, low1, high1, low2, high2) {
 let get = (req, res, next) => {
     let deviceId = req.params.device;
     client.get(`dmx_${deviceId}`, (err, doc) => {
-        res.send(`${(doc != null)?(doc !== '0')?1:0:0}`);
+        res.send(`${(doc != null) ? (doc !== '0') ? 1 : 0 : 0}`);
     });
 };
 
@@ -28,7 +45,7 @@ let getDim = (req, res, next) => {
 let put = (req, res, next) => {
 
     let deviceId = req.params.device;
-    let value = (req.params.value > 100)?100:req.params.value;
+    let value = (req.params.value > 100) ? 100 : req.params.value;
     let formattedValue = map_range(value, 0, 100, 0, 255);
 
     updateDevice(deviceId, formattedValue).then(() => {
