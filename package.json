@@ -8,6 +8,7 @@
     "express": "^4.17.1",
     "http-errors": "^1.7.3",
     "mustache": "^4.0.1",
+    "redis": "^3.0.2",
     "serialport": "^9.0.0"
   }
 }
