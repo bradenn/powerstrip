@@ -11,7 +11,7 @@ function syncDmx() {
     for(let i = 1; i <= 16; i++){
         client.get(`dmx_${i}`, (err, doc) => {
             if(doc == null){
-                client.set(`dmx_${deviceId}`, 0);
+                client.set(`dmx_${i}`, 0);
             }else{
                 updateDevice(i, doc).then(() => {
                     console.log(`Synced state for dmx_${i} to ${doc}`);
