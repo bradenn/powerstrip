@@ -8,7 +8,7 @@ const client = redis.createClient(6379, env.REDIS);
 syncDmx();
 
 function syncDmx() {
-    for(let i = 1; i <= 16; i++){
+    for(let i = 0; i <= 16; i++){
         client.get(`dmx_${i}`, (err, doc) => {
             if(doc == null){
                 client.set(`dmx_${i}`, 0);
