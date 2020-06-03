@@ -13,7 +13,7 @@ function map_range(value, low1, high1, low2, high2) {
 let get = (req, res, next) => {
     let deviceId = req.params.device;
     client.get(`dmx_${deviceId}`, (err, doc) => {
-        res.send(`${(doc !== '0')?1:0}`);
+        res.send(`${(doc != null)?(doc !== '0')?1:0:0}`);
     });
 };
 
@@ -21,7 +21,7 @@ let get = (req, res, next) => {
 let getDim = (req, res, next) => {
     let deviceId = req.params.device;
     client.get(`dmx_${deviceId}`, (err, doc) => {
-        res.send(doc);
+        res.send(doc || 0);
     });
 };
 
