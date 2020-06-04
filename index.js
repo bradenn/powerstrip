@@ -2,8 +2,10 @@ const env = require('./env/env');
 
 const express = require('express');
 let bodyParser = require('body-parser')
+let cors = require('cors');
 const app = express();
 
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/api/v1', require('./routes/'));
